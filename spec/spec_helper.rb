@@ -4,6 +4,13 @@ require 'bundler/setup'
 require 'rspec'
 require 'rspec/autorun'
 
+if (RUBY_VERSION.split('.').map(&:to_i) <=> [1, 9]) >= 0
+  require 'simplecov'
+  SimpleCov.start do
+    add_filter 'spec'
+  end
+end
+
 begin
   # Rails 3+
   require 'rails'
@@ -49,8 +56,14 @@ class Child < ActiveRecord::Base
 end
 
 class CompositeChild < ActiveRecord::Base
-  set_table_name "children"
-  set_primary_keys :id, :name
+  if ::ActiveRecord::VERSION::STRING < '3.2'
+    set_table_name "children"
+    set_primary_keys :id, :name
+  else
+    self.table_name = "children"
+    self.primary_keys = [:id, :name]
+  end
+
 end
 
 # Load RubyAMF
