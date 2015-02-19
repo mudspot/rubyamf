@@ -100,7 +100,7 @@ module RubyAMF
 
       props.merge!(dynamic_props) if dynamic_props
       if respond_to?(:attributes=)
-        attrs = self.attributes
+        attrs = (::Gem::Version.new(::ActiveRecord::VERSION::STRING) >= ::Gem::Version.new('4.2.0')) ? self.instance_variable_get('attributes') : self.attributes
         rubyamf_set_non_attributes props, attrs
         self.attributes = props # Populate using attributes setter
       else
