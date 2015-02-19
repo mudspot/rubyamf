@@ -27,7 +27,10 @@ when '3.1'
 when '3.2'
   gem 'rails', '~>3.2.0'
   gem 'composite_primary_keys', '~> 5'
-else
+when '4.0'
   gem 'rails', '~>4.0'
   gem 'composite_primary_keys', '~> 6'
+else
+  gem 'rails', '~>4.2'
+  gem 'composite_primary_keys', '~> 8'
 end

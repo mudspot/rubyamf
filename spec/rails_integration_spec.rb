@@ -19,4 +19,15 @@ describe "Rails integration" do
       des.should be_a(Array)
     end
   end
+
+  describe "Rails 4", :if => Rails::VERSION::MAJOR == 4 do
+    it "should convert ActiveRecord::Relation to array for serialization" do
+      rel = Parent.where(:name => 'a')
+      rel.should be_a ActiveRecord::Relation
+
+      ser = RocketAMF.serialize(rel, 3)
+      des = RocketAMF.deserialize(ser, 3)
+      des.should be_a(Array)
+    end
+  end
 end
